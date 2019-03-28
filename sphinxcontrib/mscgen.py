@@ -73,12 +73,12 @@ def run_cmd(builder, cmd, cmd_name, cfg_name, stdin=''):
     try:
         try:
             p = Popen(cmd, stdout=PIPE, stdin=PIPE, stderr=PIPE)
-        except OSError, err:
+        except OSError as err:
             # workaround for missing shebang of epstopdf script
             if err.errno != getattr(errno, 'ENOEXEC', 0):
                 raise
             p = Popen(cmd, shell=True, stdout=PIPE, stdin=PIPE, stderr=PIPE)
-    except OSError, err:
+    except OSError as err:
         if err.errno != 2:   # No such file or directory
             raise
         builder.warn('%s command %r cannot be run (needed for mscgen '
@@ -119,7 +119,7 @@ def render_msc(self, code, format, prefix='mscgen'):
     """
     Render mscgen code into a PNG or PDF output file.
     """
-    hashkey = code.encode('utf-8') + str(self.builder.config.mscgen_args)
+    hashkey = (code + str(self.builder.config.mscgen_args)).encode('utf-8')
     id = sha(hashkey).hexdigest()
     fname = '%s-%s.%s' % (prefix, id, format)
     # if hasattr(self.builder, 'imgpath'):
@@ -146,8 +146,7 @@ def render_msc(self, code, format, prefix='mscgen'):
 
     # mscgen don't support encodings very well. ISO-8859-1 seems to work best,
     # at least for PNG.
-    if isinstance(code, unicode):
-        code = code.encode('iso-8859-1')
+    code = code.encode('iso-8859-1')
 
     mscgen_args = [self.builder.config.mscgen]
     mscgen_args.extend(self.builder.config.mscgen_args)
@@ -171,7 +170,7 @@ def render_msc_html(self, node, code, prefix='mscgen', imgcls=None):
     assert format in ['png', 'svg'], 'Unsupported format: ' + format
     try:
         fname, outfn, id = render_msc(self, code, format, prefix)
-    except MscgenError, exc:
+    except MscgenError as exc:
         self.builder.warn('mscgen code %r: ' % code + str(exc))
         raise nodes.SkipNode
 
@@ -201,7 +200,7 @@ def html_visit_mscgen(self, node):
 def render_msc_latex(self, node, code, prefix='mscgen'):
     try:
         fname, outfn, id = render_msc(self, code, 'pdf', prefix)
-    except MscgenError, exc:
+    except MscgenError as exc:
         self.builder.warn('mscgen code %r: ' % code + str(exc))
         raise nodes.SkipNode
 
