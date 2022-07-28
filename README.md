@@ -1,6 +1,6 @@
 # Fork of sphinx-contrib/mscgen
 
-[![Build Status](https://travis-ci.org/13pgeiser/sphinx-mscgen.svg?branch=master)](https://travis-ci.org/13pgeiser/sphinx-mscgen)
+[![Build Status](https://github.com/13pgeiser/sphinx-mscgen/actions/workflows/publish.yml/badge.svg)](https://github.com/13pgeiser/sphinx-mscgen/actions)
 
 The artefacts are available on [github pages](https://13pgeiser.github.io/sphinx-mscgen/)
 
