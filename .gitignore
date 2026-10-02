@@ -1,2 +1,4 @@
+build
 dist
 Dockerfile
+sphinxcontrib_mscgen.egg-info
